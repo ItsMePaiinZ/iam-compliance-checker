@@ -1,7 +1,11 @@
 """Kommandozeile.
 
 Aktuell (Schritt 3): Daten aus Keycloak einsammeln und als Snapshot speichern.
+    export KC_CLIENT_SECRET=...
     python -m iamcc collect --out reports/snapshot.json
+
+Der Checker meldet sich als eigener Service-Account mit Leserechten an
+(Client iam-compliance-checker), nicht als Admin.
 
 Die Prüfungen (Schritt 4) und der Bericht (Schritt 5) kommen später dazu.
 """
@@ -18,11 +22,20 @@ from iamcc.connectors.keycloak import KeycloakConnector
 
 
 def cmd_collect(args: argparse.Namespace) -> int:
+    client_secret = os.environ.get("KC_CLIENT_SECRET")
+    if not client_secret:
+        print(
+            "Fehler: KC_CLIENT_SECRET ist nicht gesetzt.\n"
+            "Das Secret steht in Keycloak unter Clients → iam-compliance-checker → Credentials.",
+            file=sys.stderr,
+        )
+        return 2
+
     connector = KeycloakConnector(
         base_url=args.url,
         realm=args.realm,
-        admin_user=os.environ.get("KC_ADMIN_USER", "admin"),
-        admin_password=os.environ.get("KC_ADMIN_PASSWORD", "admin"),
+        client_id=os.environ.get("KC_CLIENT_ID", "iam-compliance-checker"),
+        client_secret=client_secret,
     )
     snapshot = connector.collect()
     out = Path(args.out)

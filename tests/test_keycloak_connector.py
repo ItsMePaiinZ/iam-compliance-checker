@@ -46,7 +46,14 @@ class FakeKeycloak:
         self.by_id = {u["id"]: u for u in self.users + list(self.service_accounts.values())}
 
     def post(self, url, data, timeout):
-        assert url.endswith("/realms/master/protocol/openid-connect/token")
+        # Login muss im geprüften Realm passieren, nicht im master-Realm,
+        # und zwar als Service-Account des Checkers, nicht mit Benutzername/Passwort.
+        assert url.endswith("/realms/muster-gmbh/protocol/openid-connect/token")
+        assert data == {
+            "grant_type": "client_credentials",
+            "client_id": "iam-compliance-checker",
+            "client_secret": "test-secret",
+        }
         return FakeResponse({"access_token": "fake-token"})
 
     def get(self, url, params=None, headers=None, timeout=None):
@@ -95,7 +102,13 @@ def login_events() -> list[dict]:
 @pytest.fixture(scope="module")
 def snapshot():
     realm = json.loads(REALM_FILE.read_text(encoding="utf-8"))
-    connector = KeycloakConnector(BASE, "muster-gmbh", "admin", "admin", session=FakeKeycloak(realm, login_events()))
+    connector = KeycloakConnector(
+        BASE,
+        "muster-gmbh",
+        client_id="iam-compliance-checker",
+        client_secret="test-secret",
+        session=FakeKeycloak(realm, login_events()),
+    )
     return connector.collect()
 
 
@@ -108,7 +121,7 @@ def test_all_identities_collected_including_service_account(snapshot):
     sa = by_name(snapshot, "service-account-reporting-tool")
     assert sa.is_service_account
     assert sa.display_name == "reporting-tool"
-        checker = by_name(snapshot, "service-account-iam-compliance-checker")
+    checker = by_name(snapshot, "service-account-iam-compliance-checker")
     assert checker.is_service_account
     assert not checker.privileged
 
@@ -158,3 +171,11 @@ def test_parse_password_policy():
     assert policy.not_username
     assert policy.history == 5
     assert parse_password_policy(None).min_length == 0
+
+
+def test_cli_refuses_to_run_without_client_secret(monkeypatch, capsys):
+    from iamcc.__main__ import main
+
+    monkeypatch.delenv("KC_CLIENT_SECRET", raising=False)
+    assert main(["collect"]) == 2
+    assert "KC_CLIENT_SECRET" in capsys.readouterr().err

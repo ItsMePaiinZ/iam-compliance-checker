@@ -42,7 +42,8 @@ docker compose up -d
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt -r requirements-dev.txt
 
-# 3. Daten einsammeln
+# 3. Daten einsammeln (Secret des Checker-Clients aus dem Test-Realm)
+export KC_CLIENT_SECRET=checker-secret-nur-fuer-lokale-testumgebung
 python -m iamcc collect --out reports/snapshot.json
 
 # 4. Tests
@@ -60,6 +61,12 @@ Beim ersten Start braucht Keycloak etwa eine halbe Minute, bis der Realm importi
 - [ ] Bericht als Markdown/HTML, Fehlercode bei kritischen Befunden
 - [ ] GitHub Action, die den Checker gegen einen Keycloak-Container laufen lässt
 - [ ] Entra-ID-Connector über Microsoft Graph
+
+## Least Privilege für den Checker selbst
+
+Der Checker meldet sich nicht als Admin an, sondern als eigener Service-Account (Client `iam-compliance-checker`) über den Client-Credentials-Flow, direkt im geprüften Realm. Der Account hat nur Leserechte (`view-users`, `view-realm`, `view-clients`, `view-events`). Ein abgegriffenes Secret erlaubt also nur Lesen in diesem einen Realm, keine Änderungen. Ein Test stellt sicher, dass der Account nicht versehentlich privilegiert wird.
+
+Das Secret kommt ausschließlich aus der Umgebungsvariable `KC_CLIENT_SECRET`, im Code gibt es keinen Standardwert.
 
 ## Hinweise
 

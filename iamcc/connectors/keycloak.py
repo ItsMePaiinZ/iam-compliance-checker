@@ -66,9 +66,8 @@ class KeycloakConnector:
         self,
         base_url: str,
         realm: str,
-        admin_user: str,
-        admin_password: str,
-        admin_realm: str = "master",
+        client_id: str,
+        client_secret: str,
         session: requests.Session | None = None,
         privileged_realm_roles: set[str] | None = None,
         privileged_client_roles: dict[str, set[str]] | None = None,
@@ -76,9 +75,8 @@ class KeycloakConnector:
     ) -> None:
         self.base_url = base_url.rstrip("/")
         self.realm = realm
-        self.admin_user = admin_user
-        self.admin_password = admin_password
-        self.admin_realm = admin_realm
+        self.client_id = client_id
+        self.client_secret = client_secret
         self.session = session or requests.Session()
         self.privileged_realm_roles = privileged_realm_roles or DEFAULT_PRIVILEGED_REALM_ROLES
         self.privileged_client_roles = privileged_client_roles or DEFAULT_PRIVILEGED_CLIENT_ROLES
@@ -88,14 +86,16 @@ class KeycloakConnector:
     # ------------------------------------------------------------------ HTTP
 
     def _login(self) -> None:
-        url = f"{self.base_url}/realms/{self.admin_realm}/protocol/openid-connect/token"
+        # Client-Credentials-Flow: Der Checker meldet sich als eigener Service-Account
+        # direkt im geprüften Realm an, nicht als Admin im master-Realm.
+        # Welche Daten er lesen darf, steuern die view-*-Rollen dieses Service-Accounts.
+        url = f"{self.base_url}/realms/{self.realm}/protocol/openid-connect/token"
         response = self.session.post(
             url,
             data={
-                "grant_type": "password",
-                "client_id": "admin-cli",
-                "username": self.admin_user,
-                "password": self.admin_password,
+                "grant_type": "client_credentials",
+                "client_id": self.client_id,
+                "client_secret": self.client_secret,
             },
             timeout=self.timeout,
         )
