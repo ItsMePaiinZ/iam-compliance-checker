@@ -43,6 +43,16 @@
       "serviceAccountsEnabled": true,
       "standardFlowEnabled": false,
       "directAccessGrantsEnabled": false
+    },
+    {
+      "clientId": "iam-compliance-checker",
+      "name": "IAM Compliance Checker (nur Lesezugriff)",
+      "enabled": true,
+      "publicClient": "false",
+      "secret": "checker-secret-nur-fuer-lokale-testumgebung",
+      "serviceAccountsEnabled": true,
+      "standardFlowEnabled": false,
+      "directAccessGrantsEnabled": false
     }
   ],
   "users": [
