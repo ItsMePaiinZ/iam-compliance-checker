@@ -104,10 +104,13 @@ def by_name(snapshot, username):
 
 
 def test_all_identities_collected_including_service_account(snapshot):
-    assert len(snapshot.identities) == 11
+    assert len(snapshot.identities) == 12
     sa = by_name(snapshot, "service-account-reporting-tool")
     assert sa.is_service_account
     assert sa.display_name == "reporting-tool"
+        checker = by_name(snapshot, "service-account-iam-compliance-checker")
+    assert checker.is_service_account
+    assert not checker.privileged
 
 
 def test_mfa_status(snapshot):
