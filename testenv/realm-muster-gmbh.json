@@ -374,13 +374,13 @@
       }
     },
     {
-      "username": "iam-compliance-checker",
+      "username": "service-account-iam-compliance-checker",
       "enabled": true,
       "serviceAccountClientId": "iam-compliance-checker",
-      "realmRoles":["default-roles-muster-gmbh"],
-      "clientRoles":{
+      "realmRoles": ["default-roles-muster-gmbh"],
+      "clientRoles": {
         "realm-management": ["view-users", "view-realm", "view-clients", "view-events"]
-      }
+          }
     }
   ]
 }
