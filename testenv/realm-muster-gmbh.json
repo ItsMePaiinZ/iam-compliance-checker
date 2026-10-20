@@ -372,6 +372,15 @@
           "realm-admin"
         ]
       }
+    },
+    {
+      "username": "iam-compliance-checker",
+      "enabled": true,
+      "serviceAccountClientId": "iam-compliance-checker",
+      "realmRoles":["default-roles-muster-gmbh"],
+      "clientRoles":{
+        "realm-management": ["view-users", "view-realm", "view-clients", "view-events"]
+      }
     }
   ]
 }
