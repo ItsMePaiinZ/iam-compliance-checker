@@ -1,0 +1,367 @@
+{
+  "realm": "muster-gmbh",
+  "displayName": "Muster GmbH (fiktive Testfirma)",
+  "enabled": true,
+  "passwordPolicy": "length(6)",
+  "bruteForceProtected": false,
+  "eventsEnabled": true,
+  "eventsExpiration": 7776000,
+  "enabledEventTypes": [
+    "LOGIN",
+    "LOGIN_ERROR",
+    "LOGOUT"
+  ],
+  "adminEventsEnabled": true,
+  "adminEventsDetailsEnabled": true,
+  "roles": {
+    "realm": [
+      {
+        "name": "admin",
+        "description": "Volle Administration der Firmen-IT"
+      },
+      {
+        "name": "it",
+        "description": "IT-Abteilung"
+      },
+      {
+        "name": "hr",
+        "description": "Personalabteilung"
+      },
+      {
+        "name": "mitarbeiter",
+        "description": "Standardrolle für alle Beschäftigten"
+      }
+    ]
+  },
+  "clients": [
+    {
+      "clientId": "reporting-tool",
+      "name": "Internes Reporting-Tool",
+      "enabled": true,
+      "publicClient": false,
+      "secret": "test-secret-nur-fuer-lokale-testumgebung",
+      "serviceAccountsEnabled": true,
+      "standardFlowEnabled": false,
+      "directAccessGrantsEnabled": false
+    }
+  ],
+  "users": [
+    {
+      "username": "m.mueller",
+      "firstName": "Maria",
+      "lastName": "Müller",
+      "email": "m.mueller@muster-gmbh.example",
+      "emailVerified": true,
+      "enabled": true,
+      "attributes": {
+        "abteilung": [
+          "IT"
+        ],
+        "beschaeftigung": [
+          "aktiv"
+        ]
+      },
+      "credentials": [
+        {
+          "type": "password",
+          "value": "Testpasswort-2026!",
+          "temporary": false
+        },
+        {
+          "type": "otp",
+          "userLabel": "Authenticator-App",
+          "secretData": "{\"value\":\"JBSWY3DPEHPK3PXPJBSWY3DPEHPK3PXP\"}",
+          "credentialData": "{\"subType\":\"totp\",\"digits\":6,\"counter\":0,\"period\":30,\"algorithm\":\"HmacSHA1\"}"
+        }
+      ],
+      "realmRoles": [
+        "admin",
+        "it",
+        "mitarbeiter"
+      ]
+    },
+    {
+      "username": "t.schmidt",
+      "firstName": "Thomas",
+      "lastName": "Schmidt",
+      "email": "t.schmidt@muster-gmbh.example",
+      "emailVerified": true,
+      "enabled": true,
+      "attributes": {
+        "abteilung": [
+          "IT"
+        ],
+        "beschaeftigung": [
+          "aktiv"
+        ]
+      },
+      "credentials": [
+        {
+          "type": "password",
+          "value": "Testpasswort-2026!",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "admin",
+        "it",
+        "mitarbeiter"
+      ]
+    },
+    {
+      "username": "k.alt",
+      "firstName": "Klaus",
+      "lastName": "Alt",
+      "email": "k.alt@muster-gmbh.example",
+      "emailVerified": true,
+      "enabled": true,
+      "createdTimestamp": 1736899200000,
+      "attributes": {
+        "abteilung": [
+          "IT"
+        ],
+        "beschaeftigung": [
+          "aktiv"
+        ]
+      },
+      "credentials": [
+        {
+          "type": "password",
+          "value": "Testpasswort-2026!",
+          "temporary": false
+        },
+        {
+          "type": "otp",
+          "userLabel": "Authenticator-App",
+          "secretData": "{\"value\":\"KRSXG5CTMVRXEZLUKRSXG5CTMVRXEZLU\"}",
+          "credentialData": "{\"subType\":\"totp\",\"digits\":6,\"counter\":0,\"period\":30,\"algorithm\":\"HmacSHA1\"}"
+        }
+      ],
+      "realmRoles": [
+        "admin",
+        "mitarbeiter"
+      ]
+    },
+    {
+      "username": "s.weber",
+      "firstName": "Sabine",
+      "lastName": "Weber",
+      "email": "s.weber@muster-gmbh.example",
+      "emailVerified": true,
+      "enabled": true,
+      "attributes": {
+        "abteilung": [
+          "HR"
+        ],
+        "beschaeftigung": [
+          "aktiv"
+        ]
+      },
+      "credentials": [
+        {
+          "type": "password",
+          "value": "Testpasswort-2026!",
+          "temporary": false
+        },
+        {
+          "type": "otp",
+          "userLabel": "Authenticator-App",
+          "secretData": "{\"value\":\"MFRGGZDFMZTWQ2LKMFRGGZDFMZTWQ2LK\"}",
+          "credentialData": "{\"subType\":\"totp\",\"digits\":6,\"counter\":0,\"period\":30,\"algorithm\":\"HmacSHA1\"}"
+        }
+      ],
+      "realmRoles": [
+        "hr",
+        "mitarbeiter"
+      ]
+    },
+    {
+      "username": "j.becker",
+      "firstName": "Jan",
+      "lastName": "Becker",
+      "email": "j.becker@muster-gmbh.example",
+      "emailVerified": true,
+      "enabled": true,
+      "attributes": {
+        "abteilung": [
+          "Vertrieb"
+        ],
+        "beschaeftigung": [
+          "ausgeschieden"
+        ],
+        "austrittsdatum": [
+          "2026-06-30"
+        ]
+      },
+      "credentials": [
+        {
+          "type": "password",
+          "value": "Testpasswort-2026!",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "mitarbeiter"
+      ]
+    },
+    {
+      "username": "empfang",
+      "firstName": "Empfang",
+      "lastName": "Gemeinsam",
+      "email": "empfang@muster-gmbh.example",
+      "emailVerified": true,
+      "enabled": true,
+      "attributes": {
+        "abteilung": [
+          "Verwaltung"
+        ],
+        "kontotyp": [
+          "geteilt"
+        ]
+      },
+      "credentials": [
+        {
+          "type": "password",
+          "value": "empfang",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "mitarbeiter",
+        "hr"
+      ]
+    },
+    {
+      "username": "l.fischer",
+      "firstName": "Lena",
+      "lastName": "Fischer",
+      "email": "l.fischer@muster-gmbh.example",
+      "emailVerified": true,
+      "enabled": true,
+      "attributes": {
+        "abteilung": [
+          "Vertrieb"
+        ],
+        "beschaeftigung": [
+          "aktiv"
+        ]
+      },
+      "credentials": [
+        {
+          "type": "password",
+          "value": "Testpasswort-2026!",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "mitarbeiter"
+      ]
+    },
+    {
+      "username": "p.wagner",
+      "firstName": "Paul",
+      "lastName": "Wagner",
+      "email": "p.wagner@muster-gmbh.example",
+      "emailVerified": true,
+      "enabled": true,
+      "attributes": {
+        "abteilung": [
+          "Vertrieb"
+        ],
+        "beschaeftigung": [
+          "aktiv"
+        ]
+      },
+      "credentials": [
+        {
+          "type": "password",
+          "value": "Testpasswort-2026!",
+          "temporary": false
+        },
+        {
+          "type": "otp",
+          "userLabel": "Authenticator-App",
+          "secretData": "{\"value\":\"ONSWG4TFOQYTEMZUONSWG4TFOQYTEMZU\"}",
+          "credentialData": "{\"subType\":\"totp\",\"digits\":6,\"counter\":0,\"period\":30,\"algorithm\":\"HmacSHA1\"}"
+        }
+      ],
+      "realmRoles": [
+        "mitarbeiter"
+      ]
+    },
+    {
+      "username": "a.hoffmann",
+      "firstName": "Anna",
+      "lastName": "Hoffmann",
+      "email": "a.hoffmann@muster-gmbh.example",
+      "emailVerified": true,
+      "enabled": true,
+      "attributes": {
+        "abteilung": [
+          "Buchhaltung"
+        ],
+        "beschaeftigung": [
+          "aktiv"
+        ]
+      },
+      "credentials": [
+        {
+          "type": "password",
+          "value": "Testpasswort-2026!",
+          "temporary": false
+        },
+        {
+          "type": "otp",
+          "userLabel": "Authenticator-App",
+          "secretData": "{\"value\":\"NBSWY3DPO5XXE3DEJBSWY3DPO5XXE3DE\"}",
+          "credentialData": "{\"subType\":\"totp\",\"digits\":6,\"counter\":0,\"period\":30,\"algorithm\":\"HmacSHA1\"}"
+        }
+      ],
+      "realmRoles": [
+        "mitarbeiter"
+      ]
+    },
+    {
+      "username": "f.koch",
+      "firstName": "Felix",
+      "lastName": "Koch",
+      "email": "f.koch@muster-gmbh.example",
+      "emailVerified": true,
+      "enabled": false,
+      "attributes": {
+        "abteilung": [
+          "Buchhaltung"
+        ],
+        "beschaeftigung": [
+          "ausgeschieden"
+        ],
+        "austrittsdatum": [
+          "2026-03-31"
+        ]
+      },
+      "credentials": [
+        {
+          "type": "password",
+          "value": "Testpasswort-2026!",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "mitarbeiter"
+      ]
+    },
+    {
+      "username": "service-account-reporting-tool",
+      "enabled": true,
+      "serviceAccountClientId": "reporting-tool",
+      "realmRoles": [
+        "default-roles-muster-gmbh"
+      ],
+      "clientRoles": {
+        "realm-management": [
+          "realm-admin"
+        ]
+      }
+    }
+  ]
+}

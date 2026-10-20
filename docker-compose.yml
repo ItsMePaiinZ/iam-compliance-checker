@@ -1,0 +1,15 @@
+# Lokale Testumgebung: Keycloak mit der fiktiven "Muster GmbH".
+# Start:   docker compose up -d
+# Admin:   http://localhost:8080  (admin / admin, nur lokal!)
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.4
+    command: ["start-dev", "--import-realm"]
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+      KC_HEALTH_ENABLED: "true"
+    ports:
+      - "127.0.0.1:8080:8080"
+    volumes:
+      - ./testenv/realm-muster-gmbh.json:/opt/keycloak/data/import/realm-muster-gmbh.json:ro
